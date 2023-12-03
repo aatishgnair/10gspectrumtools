@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .container {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-top: 50px;
+    }
+    #result {
+      margin-top: 20px;
+    }
+    .error {
+      color: #dc3545;
+    }
+    .success {
+      color: #28a745;
+    }
+    .loading {
+      display: none;
+      text-align: center;
+    }
+    .loading img {
+      width: 50px;
+      height: 50px;
+    }
+  </style>
+  <title>Website Health Checker</title>
+</head>
+<body>
+
+  <div class="container">
+    <h1 class="mb-4">Website Health Checker</h1>
+
+    <div class="form-group">
+      <label for="urlInput">Enter Website URL:</label>
+      <input type="text" class="form-control" id="urlInput" placeholder="https://example.com">
+    </div>
+
+    <button class="btn btn-primary" onclick="checkHealth()">Check Health</button>
+
+    <div class="loading" id="loading">
+      <img src="https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif" alt="Loading">
+      <p>Loading...</p>
+    </div>
+
+    <div id="result" class="mt-4"></div>
+
+    <p class="error" id="error"></p>
+    <p class="success" id="success"></p>
+  </div>
+
+  <script>
+    async function checkHealth() {
+      // Clear previous results and messages
+      document.getElementById('result').innerHTML = '';
+      document.getElementById('error').innerHTML = '';
+      document.getElementById('success').innerHTML = '';
+
+      const url = document.getElementById('urlInput').value;
+
+      try {
+        // Check if the entered value is a valid URL
+        if (!isValidUrl(url)) {
+          throw new Error('Please enter a valid URL.');
+        }
+
+        // Display loading animation
+        const loadingElement = document.getElementById('loading');
+        loadingElement.style.display = 'block';
+        
+        const startTime = new Date().getTime();
+
+        const pageSpeedData = await getPageSpeed(url);
+
+        const endTime = new Date().getTime();
+        const elapsedTime = (endTime - startTime) / 1000; // Convert to seconds
+
+        const resultElement = document.getElementById('result');
+        resultElement.innerHTML = `
+          <h3>Results for ${url}</h3>
+          <p><strong>Page Speed Score:</strong> ${pageSpeedData.score}</p>
+          <p><strong>Page Speed Details:</strong> ${JSON.stringify(pageSpeedData.details)}</p>
+          <p><strong>Overall Health:</strong> ${checkOverallHealth(pageSpeedData.score)}</p>
+          <p><strong>Security:</strong> ${await checkSecurity()}</p>
+          <p><strong>Trust:</strong> ${await checkTrust()}</p>
+          <p><strong>Analysis Time:</strong> ${elapsedTime.toFixed(2)} seconds</p>
+        `;
+
+        // Hide loading animation
+        loadingElement.style.display = 'none';
+
+        // Display success message
+        const successElement = document.getElementById('success');
+        successElement.innerHTML = 'Analysis complete!';
+      } catch (error) {
+        // Hide loading animation
+        document.getElementById('loading').style.display = 'none';
+
+        // Display error message
+        document.getElementById('error').innerHTML = `<strong>Error:</strong> ${error.message}`;
+
+        // Clear success message
+        document.getElementById('success').innerHTML = '';
+      }
+    }
+
+    async function getPageSpeed(url) {
+      const apiKey = 'AIzaSyCsrZlgqqo5iLt8lKgimD_UdvWoHjD8npY';
+      const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&key=${apiKey}`;
+
+      try {
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+          throw new Error(`Error fetching page speed data. Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        return {
+          score: data.lighthouseResult.categories.performance.score * 100,
+          details: data.loadingExperience,
+        };
+      } catch (error) {
+        throw new Error('Error fetching page speed data');
+      }
+    }
+
+    function checkOverallHealth(score) {
+      // Implement your own logic based on the page speed score
+      if (score >= 90) {
+        return 'Healthy';
+      } else if (score >= 50) {
+        return 'Moderate';
+      } else {
+        return 'Poor';
+      }
+    }
+
+    async function checkSecurity() {
+      // Placeholder for checking security (use appropriate checks)
+      // Implement checks based on your specific criteria
+      return 'Secure'; // Replace with actual security check data
+    }
+
+    async function checkTrust() {
+      // Placeholder for trust checks without relying on other sites
+      // Implement checks based on your specific criteria
+      // For example, you can check for the presence of HTTPS
+      if (window.location.protocol === 'https:') {
+        return 'Trusted';
+      } else {
+        return 'Not Trusted';
+      }
+    }
+
+    function isValidUrl(value) {
+      try {
+        new URL(value);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+  </script>
+
+</body>
+</html>
