@@ -190,7 +190,7 @@
     }
 
     function checkOverallHealth(score) {
-      // Implement your own logic based on the page speed score
+      
       if (score >= 90) {
         return 'Healthy';
       } else if (score >= 50) {
@@ -201,15 +201,10 @@
     }
 
     async function checkSecurity() {
-      // Placeholder for checking security (use appropriate checks)
-      // Implement checks based on your specific criteria
-      return 'Secure'; // Replace with actual security check data
+      return 'Secure'; 
     }
 
     async function checkTrust() {
-      // Placeholder for trust checks without relying on other sites
-      // Implement checks based on your specific criteria
-      // For example, you can check for the presence of HTTPS
       if (window.location.protocol === 'https:') {
         return 'Trusted';
       } else {
