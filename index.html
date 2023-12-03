@@ -1,8 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XK0W9SZXVK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XK0W9SZXVK');
+</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Optimize your website's performance with the Website Health Checker by 10G Spectrum. Check page speed, security, trust, and overall health. Ensure a healthy online presence.">
+  <meta name="keywords" content="Website Health Checker, Page Speed Analysis, Website Security, Trust Check, Web Performance, 10G Spectrum">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
@@ -32,11 +43,27 @@
       width: 50px;
       height: 50px;
     }
+    .navbar {
+      background-color: #064D50;
+      color: #ffffff;
+    }
+    .navbar-brand {
+      color: #ffffff !important;
+      font-weight: bold;
+    }
+    .navbar-label {
+      color: #ffffff;
+      font-size: 12px;
+    }
   </style>
-  <title>Website Health Checker</title>
+  <title>Website Health Checker - Analyze and Improve Your Website's Performance | 10G Spectrum</title>
 </head>
 <body>
-
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="https://healthcheck10gspectrum.com" >HealthCheck</a>
+        <span class="navbar-label">Powered by <a class="navbar-brand" href="https://10gspectrum.com" target="_blank">10G Spectrum</a></span>
+      </nav>
+<section>
   <div class="container">
     <h1 class="mb-4">Website Health Checker</h1>
 
@@ -45,7 +72,7 @@
       <input type="text" class="form-control" id="urlInput" placeholder="https://example.com">
     </div>
 
-    <button class="btn btn-primary" onclick="checkHealth()">Check Health</button>
+    <button class="btn" style="background-color: #064D50;color: #ffffff;" onclick="checkHealth()">Check Health</button>
 
     <div class="loading" id="loading">
       <img src="https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif" alt="Loading">
@@ -58,7 +85,34 @@
     <p class="success" id="success"></p>
   </div>
 
-  <script>
+  <div class="container">
+    <p><strong>Disclaimer:</strong> This Website Health Checker tool is in its early stages and may have limitations. We appreciate your patience as we work to enhance its features and performance. Your feedback is valuable in helping us improve. Thank you for using our tool!</p>
+  </div>
+</section>
+
+
+
+
+
+  <!-- footer-28 block -->
+  <section class="w3l-footer">
+    <footer class="footer-28">
+      
+        
+
+
+        <div class="midd-footer-28 align-center py-4 mt-5">
+          <div class="container "style="background-color: #064D50;color: #ffffff;">
+            <p class="copy-footer-28 text-center" id="copyright-year"></p>
+          </div>
+        </div>
+
+        <script>
+          // Set the initial copyright year
+          var currentYear = new Date().getFullYear();
+          document.getElementById("copyright-year").innerHTML = "&copy; " + currentYear + ", 10G Spectrum. All Rights Reserved.";
+        </script>
+<script>
     async function checkHealth() {
       // Clear previous results and messages
       document.getElementById('result').innerHTML = '';
